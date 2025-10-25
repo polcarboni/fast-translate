@@ -4,17 +4,17 @@ from tqdm import tqdm
 
 LANGUAGE_CODES = [
     #"en",  # English
-    #"zh-CN",  # Chinese (Simplified)
-    "es",  # Spanish
+    #"h-CN",  # Chinese (Simplified)
+    #"es",  # Spanish
     #"ar",  # Arabic
     #"hi",  # Hindi
-    "fr",  # French
+    #"fr",  # French
     # "bn",  # Bengali
-    "ru",  # Russian
-    "pt",  # Portuguese
+    #"ru",  # Russian
+    #"pt",  # Portuguese
     # "id",  # Indonesian
     # "ur",  # Urdu
-    "de",  # German
+    #"de",  # German
     # "ja",  # Japanese
     # "sw",  # Swahili
     # "mr",  # Marathi
@@ -22,7 +22,7 @@ LANGUAGE_CODES = [
     # "te",  # Telugu
     # "vi",  # Vietnamese
     # "ko",  # Korean
-    "it",  # Italian
+    #"it",  # Italian
     # "th",  # Thai
     # "tr",  # Turkish
     # "gu",  # Gujarati
@@ -30,24 +30,24 @@ LANGUAGE_CODES = [
     # "pa",  # Punjabi
     # "ml",  # Malayalam
     # "or",  # Odia
-    "cs",  # Czech
-    "pl",  # Polish
-    "ro",  # Romanian
-    "nl",  # Dutch
-    "el",  # Greek
+    #"cs",  # Czech
+    #"pl",  # Polish
+    #"ro",  # Romanian
+    #"nl",  # Dutch
+    #"el",  # Greek
     # "hu",  # Hungarian
-    "sv",  # Swedish
-    "fi",  # Finnish
+    #"sv",  # Swedish
+    #"fi",  # Finnish
     # "he",  # Hebrew
     "da",  # Danish
     "no",  # Norwegian
-    "bg",  # Bulgarian
-    "uk",  # Ukrainian
-    "sr",  # Serbian
-    "sk",  # Slovak
-    "sl",  # Slovenian
-    "hr",  # Croatian
-    "ka",  # Georgian
+    #"bg",  # Bulgarian
+    #"uk",  # Ukrainian
+    #"sr",  # Serbian
+    #"sk",  # Slovak
+    # "sl",  # Slovenian
+    # "hr",  # Croatian
+    # "ka",  # Georgian
     "hy",  # Armenian
     # "az",  # Azerbaijani
     # "bs",  # Bosnian
@@ -61,7 +61,7 @@ LANGUAGE_CODES = [
     # "yi",  # Yiddish
     # "tl",  # Filipino
     # "is",  # Icelandic
-    "mt",  # Maltese
+    # "mt",  # Maltese
 ]
 
 
@@ -92,7 +92,10 @@ async def main():
         words = [w.strip() for w in f.readlines()]
     
     for dest_lang in LANGUAGE_CODES:
-            
+
+        with open(f"words_{dest_lang}.txt", "w", encoding="utf-8") as f:
+            pass
+
         results = []
         semaphore = asyncio.Semaphore(50)  # Limit concurrency
 
