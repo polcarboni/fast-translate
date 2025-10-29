@@ -15,9 +15,11 @@ def main():
         description="Fast cli translation tool"
     )
 
-    parser.add_argument("--source_lang", type=str, default="de", help="Source langauge")
-    parser.add_argument("--target_lang", type=str, default="en", help="Destination language")
-
+    parser.add_argument("--source_lang", "-s", type=str, default="de", help="Source langauge")
+    parser.add_argument("--target_lang", "-t",  type=str, default="en", help="Destination language")
+    parser.add_argument("--disambiguation_len", type=int, default=1, help="Max showed translations")
+    parser.add_argument("--search", type=bool, default=False, help="Search translation if word is not present. Update the source files.")
+    parser.add_argument("--phonetic", type=bool, default=False, help="Show phonetic alphabet version of the word.")
     args = parser.parse_args()
 
     # ------------------------- Commands list --------------------------
@@ -27,7 +29,7 @@ def main():
         "--help": "Show the command list",
         "--clear": "Clears the translator terminal",
         "--default_src": "Sets default source language",
-        "--default_dst": "Sets default target language"
+        "--default_dst": "Sets default target language",
     }
 
     #------------------------- Print header --------------------------
@@ -79,22 +81,23 @@ def main():
             if word in commands.keys():
                 print(commands[word])
             else:
-                print("Command is not available, available commands:")
-                for cmd_name, cmd_desc in commands.items():
-                    print(cmd_name, cmd_desc) 
+                print("Command is not available, available commands:\n")
+                for name, desc in commands.items():
+                    print(f"  {name:<15} {desc}")
             continue
         
         # ------------------------- Translation --------------------------
         try:
             result = dictionary.get(word.lower())
             if result is not None:
-                print(f"{word}: {result}")
+                print(f"{word}: {result}\n")
             else:
-                print("Word not found.")
+                print("Word not found.\n")
 
         except ValueError as e:
             print("Word not found.\n")
 
+        #print("\n")
     
         # ------------------------- Terminal clean --------------------------
         #TODO: implement logic based on length of last command (can be multiple lines)
