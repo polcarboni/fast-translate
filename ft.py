@@ -7,24 +7,40 @@ from pathlib import Path
 
 def main():
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    #TODO: add execution and terminal cleaning for Windows anc macOS
+    os.system('cls' if os.name == 'nt' else 'clear') #Clear the terminal on linux
 
     parser = argparse.ArgumentParser(
         prog="ft",
         description="Fast cli translation tool"
     )
 
-    parser.add_argument("source_lang")
-    parser.add_argument("target_lang")
+    parser.add_argument("--source_lang", type=str, default="de", help="Source langauge")
+    parser.add_argument("--target_lang", type=str, default="en", help="Destination language")
 
     args = parser.parse_args()
 
-    #Cli header
+    # ------------------------- Commands list --------------------------
+    #TODO: structure commands with {name, description, implementation}.
+    
+    commands = {
+        "--help": "Show the command list",
+        "--clear": "Clears the translator terminal",
+        "--default_src": "Sets default source language",
+        "--default_dst": "Sets default target language"
+    }
+
+    #------------------------- Print header --------------------------
+    #TODO: Refactor, extract
+    
     print("--"*31)
     print(" "*16 +f"Fast-Translate :     ({args.source_lang} → {args.target_lang})")
     print("--"*31+"\n")
     
-    #Load dictionary
+    
+    #------------------------- Load dictionary --------------------------
+    #TODO: refactor, extract
+    
     lang_dir = os.path.join(Path(__file__).parent, "words/freq_words")
     
     source_dict_path = Path(lang_dir + f"/wordsfreq_{args.source_lang}.txt")
@@ -50,12 +66,25 @@ def main():
     for word in dictionary:
         dictionary[word] = dictionary[word].get("word")
         
-    inputs = []
-        
+    
+    # -------------------------------------------------------------------
+    #                           Terminal input
+    # -------------------------------------------------------------------
     
     while True:
         word = input("> ").strip()
 
+        # -------------------------- Commands --------------------------
+        if word.startswith("--"):
+            if word in commands.keys():
+                print(commands[word])
+            else:
+                print("Command is not available, available commands:")
+                for cmd_name, cmd_desc in commands.items():
+                    print(cmd_name, cmd_desc) 
+            continue
+        
+        # ------------------------- Translation --------------------------
         try:
             result = dictionary.get(word.lower())
             if result is not None:
@@ -66,11 +95,10 @@ def main():
         except ValueError as e:
             print("Word not found.\n")
 
-
-        inputs.append(word)
     
-        
-    '''
+        # ------------------------- Terminal clean --------------------------
+        #TODO: implement logic based on length of last command (can be multiple lines)
+        '''
         for _ in range(2):
             sys.stdout.write("\033[F\033[K")
         sys.stdout.flush()
